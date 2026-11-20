@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Age Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #000;
+    --orange: #ff9900;
+    --peach: #ffcc99;
+    --lilac: #cc99cc;
+    --blue: #9999ff;
+    --red: #cc6666;
+    --text: #ff9900;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Antonio", "Arial Narrow", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .frame {
+    width: min(900px, 100%);
+    min-height: min(560px, calc(100vh - 32px));
+    display: grid;
+    grid-template-columns: clamp(70px, 14vw, 140px) 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 8px;
+  }
+
+  /* Övre armbåge */
+  .elbow-top {
+    background: var(--lilac);
+    border-radius: 40px 0 0 0;
+    height: 72px;
+    position: relative;
+  }
+  .elbow-top::after {
+    content: "";
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 32px; height: 32px;
+    background: var(--bg);
+    border-radius: 24px 0 0 0;
+  }
+  .bar-top {
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    align-self: start;
+  }
+  .bar-top span { background: var(--lilac); border-radius: 0; }
+  .bar-top span:nth-child(1) { flex: 4; }
+  .bar-top span:nth-child(2) { flex: 1; background: var(--orange); }
+  .bar-top span:nth-child(3) { flex: 2; background: var(--blue); border-radius: 0 20px 20px 0; }
+
+  /* Vänster pelare */
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .side span {
+    flex: 1;
+    min-height: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 6px 10px;
+    color: #000;
+    font-size: clamp(11px, 1.6vw, 15px);
+  }
+  .side span:nth-child(1) { background: var(--peach); }
+  .side span:nth-child(2) { background: var(--orange); flex: 2; }
+  .side span:nth-child(3) { background: var(--red); }
+
+  /* Nedre armbåge */
+  .elbow-bottom {
+    background: var(--blue);
+    border-radius: 0 0 0 40px;
+    height: 72px;
+    position: relative;
+  }
+  .elbow-bottom::after {
+    content: "";
+    position: absolute;
+    right: 0; top: 0;
+    width: 32px; height: 32px;
+    background: var(--bg);
+    border-radius: 0 0 0 24px;
+  }
+  .bar-bottom {
+    display: flex;
+    gap: 8px;
+    height: 40px;
+    align-self: end;
+  }
+  .bar-bottom span { background: var(--blue); }
+  .bar-bottom span:nth-child(1) { flex: 1; background: var(--peach); }
+  .bar-bottom span:nth-child(2) { flex: 5; }
+  .bar-bottom span:nth-child(3) { flex: 1; background: var(--orange); border-radius: 0 20px 20px 0; }
+
+  /* Innehåll */
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 24px clamp(8px, 4vw, 48px);
+  }
+  .code {
+    color: var(--blue);
+    font-size: clamp(13px, 1.8vw, 16px);
+  }
+  h1 {
+    font-size: clamp(40px, 9vw, 96px);
+    line-height: 1;
+    font-weight: 700;
+    color: var(--peach);
+  }
+  .yes {
+    font: inherit;
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: #000;
+    background: var(--orange);
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 64px 12px 40px;
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s, transform .1s;
+  }
+  .yes:hover, .yes:focus-visible { background: var(--peach); outline: none; }
+  .yes:active { transform: scale(.97); }
+
+  .granted { display: none; color: var(--lilac); font-size: clamp(22px, 4vw, 34px); }
+  body.ok .question, body.ok .yes { display: none; }
+  body.ok .granted { display: block; animation: blink 1s steps(2) 3; }
+  @keyframes blink { 50% { opacity: .2; } }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="elbow-top"></div>
+    <div class="bar-top"><span></span><span></span><span></span></div>
+
+    <div class="side"><span>04-1877</span><span>18-0000</span><span>31-2701</span></div>
+    <main>
+      <div class="code">Verification sequence 18</div>
+      <h1 class="question">Are you over 18?</h1>
+      <button class="yes" id="yes" type="button">Yes</button>
+      <div class="granted">Access granted</div>
+    </main>
+
+    <div class="elbow-bottom"></div>
+    <div class="bar-bottom"><span></span><span></span><span></span></div>
+  </div>
+
+<script>
+  // Sätt en adress här om Yes ska skicka vidare, t.ex. "https://example.com".
+  const NEXT_URL = "";
+
+  document.getElementById("yes").addEventListener("click", () => {
+    if (NEXT_URL) {
+      location.href = NEXT_URL;
+    } else {
+      document.body.classList.add("ok");
+    }
+  });
+</script>
+</body>
+</html>
